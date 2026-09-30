@@ -1,0 +1,16 @@
+# Originaux des dessins : jamais en ligne (seul info.json est publié)
+/dessins/*/*
+!/dessins/*/info.json
+
+# Original de la page d'accueil (seule la version web docs/accueil.webp est publiée)
+/accueil/*
+!/accueil/.gitkeep
+
+# Fichiers locaux
+.cache/
+__pycache__/
+*.pyc
+.venv/
+venv/
+.DS_Store
+Thumbs.db

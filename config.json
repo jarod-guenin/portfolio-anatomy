@@ -1,0 +1,16 @@
+{
+  "auteur": "Jarod Guénin",
+  "titre_site": "L'anatomie d'un portofolio",
+  "url_site": "https://jarodguenin.github.io",
+  "contact": "https://www.instagram.com/jerod.g_/",
+  "filigrane": "© Jarod GUENIN",
+  "filigrane_opacite": 0.09,
+  "filigrane_style": "discret",
+  "taille_web": 1600,
+  "qualite_webp": 82,
+  "calques_vignettes": true,
+  "accueil": "accueil/accueil.png",
+  "accueil_ajustement": "cover",
+  "accueil_fond": "#111111",
+  "accueil_texte": "Attrape un bord et tire pour déchirer"
+}
