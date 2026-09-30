@@ -40,7 +40,7 @@ let cleanup = null; // nettoyage de la vue courante (listeners)
 const V = {
   view: $('#view'), status: $('#status'), crumbs: $('#crumbs'), tab: $('#tabTitle'),
   sidebar: $('#sidebar'), count: $('#count'), filterLabel: $('#filterLabel'),
-  search: $('#search'), sort: $('#sort'),
+  search: $('#search'), sort: $('#sort'), catSelect: $('#catSelect'),
   back: $('#btnBack'), up: $('#btnUp'), prev: $('#btnPrev'), next: $('#btnNext'),
 };
 
@@ -92,9 +92,18 @@ function setStatus(...parts) {
 }
 
 /* ───────── barre latérale ───────── */
+function renderCatSelect(cats) {
+  const opts = [el('option', { value: '' }, `Toutes (${DATA.dessins.length})`)]
+    .concat(Object.keys(cats).sort((a, b) => a.localeCompare(b, 'fr'))
+      .map((c) => el('option', { value: c }, `${c} (${cats[c]})`)));
+  V.catSelect.replaceChildren(...opts);
+  V.catSelect.value = state.cat || '';
+}
+
 function renderSidebar() {
   const cats = {};
   DATA.dessins.forEach((d) => catsOf(d).forEach((c) => { cats[c] = (cats[c] || 0) + 1; }));
+  renderCatSelect(cats);
   const btn = (label, cat, n) => el('button', {
     class: document.body.dataset.mode === 'bureau' && state.cat === cat ? 'on' : null,
     onclick: () => { state.cat = cat; state.scroll = 0; location.hash === '#/' || location.hash === '' ? route() : (location.hash = '#/'); },
@@ -394,7 +403,11 @@ function renderViewer(d) {
   const layout = () => {
     if (!ready) return;
     const pad = 2 * parseFloat(getComputedStyle(stage).paddingLeft || 0);
-    const fit = Math.min((stage.clientWidth - pad) / canvas.width, (stage.clientHeight - pad) / canvas.height);
+    // petit écran : l'image prend toute la largeur et la zone s'adapte à sa hauteur
+    const narrow = window.matchMedia('(max-width: 900px)').matches && !document.fullscreenElement;
+    const fit = narrow
+      ? Math.min((stage.clientWidth - pad) / canvas.width, (window.innerHeight * 0.75) / canvas.height)
+      : Math.min((stage.clientWidth - pad) / canvas.width, (stage.clientHeight - pad) / canvas.height);
     const scale = Math.max(0.05, fit) * steps[zi];
     canvas.style.width = `${Math.round(canvas.width * scale)}px`;
     canvas.style.height = `${Math.round(canvas.height * scale)}px`;
@@ -740,6 +753,7 @@ function route() {
 }
 
 V.search.addEventListener('input', () => { state.q = V.search.value; state.scroll = 0; if (document.body.dataset.mode === 'bureau') showBureau(); });
+V.catSelect.addEventListener('change', () => { state.cat = V.catSelect.value || null; state.scroll = 0; showBureau(); });
 V.sort.addEventListener('change', () => { state.sort = V.sort.value; if (document.body.dataset.mode === 'bureau') showBureau(); });
 V.up.addEventListener('click', () => {
   if (document.body.dataset.mode === 'bureau' && state.cat) { state.cat = null; showBureau(); }

@@ -336,3 +336,29 @@ body:not([data-mode="dossier"]) .only-dossier { display: none; }
   background: #00000060; color: #ddd; font-size: 12px; cursor: pointer; opacity: .6; }
 .splash-enter:hover, .splash-enter:focus-visible { opacity: 1; }
 @media (prefers-reduced-motion: reduce) { .splash-arrow { animation: none; } }
+
+/* ── petits écrans (téléphone, tablette) ── */
+.only-mobile { display: none; }
+@media (max-width: 900px) {
+  .only-mobile { display: inline-flex; align-items: center; gap: 4px; }
+  .cmdbar { gap: 10px; padding: 0 12px; flex-wrap: nowrap; overflow-x: auto; }
+  .cmdbar label { white-space: nowrap; }
+  .cmdbar select { max-width: 36vw; }
+  .cmdbar .sep, .cmdbar #filterLabel, .cmdbar #count { display: none; }
+  .toolbar { padding: 0 8px; gap: 6px; padding-top: env(safe-area-inset-top); height: auto; min-height: 52px; }
+  .statusbar { padding-bottom: env(safe-area-inset-bottom); height: auto; min-height: 28px; }
+  .viewer { height: auto; }
+  .stage { flex: none; padding: 10px; }
+  .vbar { flex-wrap: wrap; height: auto; min-height: 48px; padding: 6px 8px; gap: 6px; }
+  .vbar .pill { padding: 0 10px; }
+  .grid { gap: 10px 4px; }
+  .fname { font-size: 12px; }
+  .splash-hint { bottom: calc(24px + env(safe-area-inset-bottom)); white-space: normal; text-align: center; max-width: calc(100% - 32px); }
+  .splash-enter { top: calc(14px + env(safe-area-inset-top)); bottom: auto; right: 14px; }
+  .lw { bottom: calc(8px + env(safe-area-inset-bottom)); }
+  .lw-details { max-height: 26%; }
+}
+@media (max-width: 900px) and (orientation: landscape) {
+  .viewer { height: auto; }
+  .lw { height: 80vh !important; }
+}
